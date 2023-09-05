@@ -12,19 +12,18 @@ public class GameController
     private InputController _inputController;
     private PlayerController _playerController;
     private UIService _uiService;
-    private UIMainMenuController _mainMenuWindowController;
     private UIGameWindowController _gameWindowController;
-    private UIEndGameWindowController _endMenuWindowController;
     private HUDWindowController _hudWindowController;
     private ScoreCounter _scoreCounter;
     private SoundController _soundController;
     
-    public GameController(UnityEngine.Camera camera)
+    public GameController(UnityEngine.Camera camera, UIService uiService, HUDWindowController hudWindowController)
     {
         _soundController = new SoundController();
         _camera = camera;
-        
-        UIInit();
+        _uiService = uiService;
+        _hudWindowController = hudWindowController;
+
         ScoreInit();
         
         _inputController = new InputController();
@@ -37,16 +36,7 @@ public class GameController
         _playerController.PlayerHpController.OnZeroHealth += StopGame;
         InitGame();
     }
-    
-    private void UIInit()
-    {
-        _uiService = new UIService(_camera);
-            
-        _mainMenuWindowController = new UIMainMenuController(_uiService, this);
-        _gameWindowController = new UIGameWindowController(_uiService);
-        _endMenuWindowController = new UIEndGameWindowController(_uiService, this);
-        _hudWindowController = new HUDWindowController(_uiService);
-    }
+
 
     private void ScoreInit()
     {

@@ -1,4 +1,6 @@
-﻿namespace FallObject
+﻿using Zenject;
+
+namespace FallObject
 {
     public class FallObject
     {
@@ -14,6 +16,10 @@
         {
             _view = view;
             _model = model;
+        }
+        
+        public class Factory : PlaceholderFactory<FallObject>
+        {
         }
     }
 }

@@ -1,9 +1,10 @@
 using System;
 using FallObject;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
-public class FallObjectSpawner
+public class FallObjectSpawner: ITickable
 {
     public FallObjectPool Pool => _pool;
 
@@ -39,16 +40,16 @@ public class FallObjectSpawner
     public void StartSpawn()
     {
         _spawnPeriod = 6.5f;
-        TickableManager.TickableManager.UpdateNotify += Update;
+        TickableManager.TickableManager.UpdateNotify += Tick;
     }
 
     public void StopSpawn()
     {
-        TickableManager.TickableManager.UpdateNotify -= Update;
+        TickableManager.TickableManager.UpdateNotify -= Tick;
         Pool.AllReturnToPool();
     }
 
-    private void Update()
+    public void Tick()
     {
         _spawnPeriod -= Time.deltaTime;
         _timer += Time.deltaTime;
