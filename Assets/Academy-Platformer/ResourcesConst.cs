@@ -13,4 +13,5 @@
     public const string SoundPoolView = "SoundPoolView";
     public const string SoundView = "SoundView";
     public const string FallObjectSpawnConfig = "FallObjectSpawnConfig";
+    public const string UIRoot = "UIRoot";
 }

@@ -9,7 +9,6 @@ public class GameController
     private readonly UnityEngine.Camera _camera;
     
     private FallObjectSpawner _spawner;
-    private InputController _inputController;
     private PlayerController _playerController;
     private UIService _uiService;
     private UIGameWindowController _gameWindowController;
@@ -17,21 +16,18 @@ public class GameController
     private ScoreCounter _scoreCounter;
     private SoundController _soundController;
     
-    public GameController(UnityEngine.Camera camera, UIService uiService, HUDWindowController hudWindowController)
+    public GameController(PlayerController playerController,FallObjectSpawner spawner, ScoreCounter scoreCounter,SoundController soundController,UnityEngine.Camera camera, UIService uiService, HUDWindowController hudWindowController)
     {
-        _soundController = new SoundController();
+        _soundController = soundController;
         _camera = camera;
         _uiService = uiService;
         _hudWindowController = hudWindowController;
+        _scoreCounter = scoreCounter;
+        _spawner = spawner;
 
         ScoreInit();
         
-        _inputController = new InputController();
-        _playerController = new PlayerController(_inputController, 
-            _hudWindowController, 
-            _camera, 
-            _soundController);
-        _spawner = new FallObjectSpawner(_scoreCounter);
+        _playerController = playerController;
 
         _playerController.PlayerHpController.OnZeroHealth += StopGame;
         InitGame();
@@ -40,7 +36,6 @@ public class GameController
 
     private void ScoreInit()
     {
-        _scoreCounter = new ScoreCounter(_soundController);
         _scoreCounter.ScoreChangeNotify += _hudWindowController.ChangeScore;
     }
 

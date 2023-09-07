@@ -8,20 +8,21 @@ public class FallObjectSpawner: ITickable
 {
     public FallObjectPool Pool => _pool;
 
-    private readonly ScoreCounter _scoreCounter;
-    private readonly FallObjectPool _pool;
-    private readonly float _spawnPeriodMin;
-    private readonly float _spawnPeriodMax;
-    private readonly float _minPositionX;
-    private readonly float _maxPositionX;
-    private readonly float _positionY;
-    private readonly float _delayStartSpawn;
+    private  ScoreCounter _scoreCounter;
+    private  FallObjectPool _pool;
+    private  float _spawnPeriodMin;
+    private  float _spawnPeriodMax;
+    private  float _minPositionX;
+    private  float _maxPositionX;
+    private  float _positionY;
+    private  float _delayStartSpawn;
     private Vector3 _spawnPosition;
     private float _spawnPeriod;
     private float _timer;
     private int _typesCount;
 
-    public FallObjectSpawner(ScoreCounter scoreCounter)
+    [Inject]
+    public void Construct(ScoreCounter scoreCounter)
     {
         var spawnerConfig = Resources.Load<FallObjectSpawnConfig>(ResourcesConst.FallObjectSpawnConfig);
         _positionY = spawnerConfig.PositionY;
