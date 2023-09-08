@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Player
+namespace PlayerSpace
 {
     public class PlayerAnimator
     {

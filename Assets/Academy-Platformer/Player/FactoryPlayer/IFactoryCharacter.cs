@@ -1,4 +1,4 @@
-﻿using Player;
+﻿using PlayerSpace;
 
 namespace Academy_Platformer.Player.FactoryPlayer
 {

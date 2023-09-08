@@ -1,5 +1,6 @@
 using Camera;
-using Player;
+using FallObject;
+using PlayerSpace;
 using Sounds;
 using TickableManager;
 using UI.HUD;
@@ -18,6 +19,9 @@ public class GameInstaller : MonoInstaller
         Container.Bind<SoundController>().AsSingle().NonLazy();
         Container.Bind<ScoreCounter>().AsSingle().NonLazy();
         Container.Bind<InputController>().AsSingle().NonLazy();
+
+        PlayerBinding();
+        
         Container.Bind<PlayerController>().AsSingle().NonLazy();
 
         Container.Bind<FallObjectSpawner>().AsSingle().NonLazy();
@@ -25,6 +29,7 @@ public class GameInstaller : MonoInstaller
         Container.Bind<GameController>()
             .AsSingle()
             .NonLazy();
+        
     }
 
     private void ApplicationStartupBindings()
@@ -76,8 +81,32 @@ public class GameInstaller : MonoInstaller
             .NonLazy();
     }
 
-    private void FallObjectPoolBinding()
+    private void PlayerBinding()
     {
+        Container.Bind<PlayerView>()
+                    .FromComponentInNewPrefabResource(ResourcesConst.PlayerPrefab)
+                    .AsSingle().NonLazy();
+        Container.Bind<PlayerStorage>().AsSingle().Lazy();
         
+        Container.BindFactory<PlayerView, Player, Player.Factory>();
+        Container
+            .Bind<PlayerConfig>()
+            .FromScriptableObjectResource(ResourcesConst.PlayerConfig)
+            .AsSingle()
+            .NonLazy();
     }
+    
+    /*private void FallObjectPoolBinding()
+    {
+        Container
+            .BindInterfacesAndSelfTo<FallObjectController>()
+            .AsSingle()
+            .NonLazy();
+        
+        Container
+            .BindMemoryPool<FallObject.FallObject, FallObject.FallObject.Pool>()
+            .WithInitialSize(5)
+            .FromComponentInNewPrefabResource("Food")
+            .UnderTransformGroup("Foods");
+    }*/
 }

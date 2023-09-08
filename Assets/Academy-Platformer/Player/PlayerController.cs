@@ -5,7 +5,7 @@ using UI.HUD;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Player
+namespace PlayerSpace
 {
     public class PlayerController
     {
@@ -22,7 +22,7 @@ namespace Player
         private PlayerConfig _playerConfig;
         private PlayerView _playerView;
         private PlayerHpController _playerHpController;
-        private IFactoryCharacter _factoryPlayer;
+        private Player.Factory _factoryPlayer;
         private PlayerStorage _playerStorage;
         private PlayerMovementController _playerMovementController;
         private PlayerAnimator _playerAnimator;
@@ -35,11 +35,15 @@ namespace Player
             InputController inputController,
             HUDWindowController hudWindowController,
             UnityEngine.Camera camera,
-            SoundController soundController)
+            SoundController soundController,
+            Player.Factory factoryPlayer,
+            PlayerConfig playerConfig,
+            PlayerStorage playerStorage,
+            PlayerView playerView)
         {
             _soundController = soundController;
             
-            _playerConfig = Resources.Load<PlayerConfig>(ResourcesConst.PlayerConfig);
+            _playerConfig = playerConfig;
 
             _playerHpController = new PlayerHpController(_playerConfig.PlayerModel.Health, _soundController);
             _playerHpController.OnHealthChanged += hudWindowController.ChangeHealthPoint;
@@ -47,9 +51,10 @@ namespace Player
             _inputController = inputController;
             _camera = camera;
             
-            
-            _playerStorage = new PlayerStorage();
-            _factoryPlayer = new FactoryPlayer();
+            _playerStorage = playerStorage;
+            _factoryPlayer = factoryPlayer;
+
+            _playerView = playerView;
         }
         
         public PlayerView Spawn()
@@ -57,12 +62,11 @@ namespace Player
             var model = _playerConfig.PlayerModel;
             _currentHealth = model.Health;
             _currentSpeed = model.Speed;
-            _playerView = _factoryPlayer.Create(model, _playerView);
             
             _playerAnimator = new PlayerAnimator(_playerView, _camera);
             _playerAnimator.Spawn();
             
-            _playerStorage.Add(_playerView);
+            _playerStorage.Add(_playerView); //////
             _playerMovementController = new PlayerMovementController(_inputController, _playerView, this);
             
             return _playerView;

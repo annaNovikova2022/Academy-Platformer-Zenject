@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Player
+namespace PlayerSpace
 {
     public class PlayerView : MonoBehaviour
     {

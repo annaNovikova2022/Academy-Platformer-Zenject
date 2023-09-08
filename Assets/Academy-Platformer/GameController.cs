@@ -1,4 +1,4 @@
-using Player;
+using PlayerSpace;
 using Sounds;
 using UI.HUD;
 using UI.UIService;

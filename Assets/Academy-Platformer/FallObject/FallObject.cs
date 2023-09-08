@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using UnityEngine;
+using Zenject;
 
 namespace FallObject
 {
@@ -16,10 +17,6 @@ namespace FallObject
         {
             _view = view;
             _model = model;
-        }
-        
-        public class Factory : PlaceholderFactory<FallObject>
-        {
         }
     }
 }
