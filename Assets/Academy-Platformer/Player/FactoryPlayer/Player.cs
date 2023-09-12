@@ -12,6 +12,7 @@ namespace PlayerSpace
         public Player(PlayerView playerView)
         {
             _playerPrefab = playerView;
+            playerView = GameObject.Instantiate(_playerPrefab);
         }
         
         public class Factory : PlaceholderFactory<PlayerView, Player>

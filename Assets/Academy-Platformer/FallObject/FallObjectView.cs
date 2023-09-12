@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace FallObject
 {
@@ -16,5 +17,34 @@ namespace FallObject
         {
             OnCollisionEnter2DNotify?.Invoke(other);
         }
+        
+        public class Pool : MemoryPool<FallObjectView>, IDisposable
+        {
+            protected override void OnCreated(FallObjectView item)
+            {
+            
+            }
+
+            protected override void OnDestroyed(FallObjectView item)
+            {
+           
+            }
+
+            protected override void OnSpawned(FallObjectView item)
+            {
+           
+            }
+
+            protected override void OnDespawned(FallObjectView item)
+            {
+            
+            }
+
+            protected override void Reinitialize(FallObjectView foo)
+            {
+            
+            }
+        }
     }
+    
 }

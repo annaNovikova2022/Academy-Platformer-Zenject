@@ -6,7 +6,7 @@ using UI.UIWindows;
 
 public class GameController
 {
-    private readonly UnityEngine.Camera _camera;
+    private  UnityEngine.Camera _camera;
     
     private FallObjectSpawner _spawner;
     private PlayerController _playerController;
@@ -16,7 +16,13 @@ public class GameController
     private ScoreCounter _scoreCounter;
     private SoundController _soundController;
     
-    public GameController(PlayerController playerController,FallObjectSpawner spawner, ScoreCounter scoreCounter,SoundController soundController,UnityEngine.Camera camera, UIService uiService, HUDWindowController hudWindowController)
+    public GameController(PlayerController playerController,
+        FallObjectSpawner spawner, 
+        ScoreCounter scoreCounter,
+        SoundController soundController,
+        UnityEngine.Camera camera, 
+        UIService uiService, 
+        HUDWindowController hudWindowController)
     {
         _soundController = soundController;
         _camera = camera;

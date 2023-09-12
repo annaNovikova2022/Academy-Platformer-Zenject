@@ -3,7 +3,9 @@ using Academy_Platformer.Player.FactoryPlayer;
 using Sounds;
 using UI.HUD;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using Object = UnityEngine.Object;
+using Zenject;
 
 namespace PlayerSpace
 {
@@ -22,7 +24,7 @@ namespace PlayerSpace
         private PlayerConfig _playerConfig;
         private PlayerView _playerView;
         private PlayerHpController _playerHpController;
-        private Player.Factory _factoryPlayer;
+        private PlayerView.Factory _factoryPlayer;
         private PlayerStorage _playerStorage;
         private PlayerMovementController _playerMovementController;
         private PlayerAnimator _playerAnimator;
@@ -36,7 +38,7 @@ namespace PlayerSpace
             HUDWindowController hudWindowController,
             UnityEngine.Camera camera,
             SoundController soundController,
-            Player.Factory factoryPlayer,
+            PlayerView.Factory factoryPlayer,
             PlayerConfig playerConfig,
             PlayerStorage playerStorage,
             PlayerView playerView)
@@ -54,7 +56,6 @@ namespace PlayerSpace
             _playerStorage = playerStorage;
             _factoryPlayer = factoryPlayer;
 
-            _playerView = playerView;
         }
         
         public PlayerView Spawn()
@@ -63,12 +64,15 @@ namespace PlayerSpace
             _currentHealth = model.Health;
             _currentSpeed = model.Speed;
             
+           /// _playerView = _factoryPlayer.Create(model, _playerView);
+            
             _playerAnimator = new PlayerAnimator(_playerView, _camera);
             _playerAnimator.Spawn();
             
+            _playerView.gameObject.SetActive(true);
             _playerStorage.Add(_playerView); //////
             _playerMovementController = new PlayerMovementController(_inputController, _playerView, this);
-            
+
             return _playerView;
         }
 
