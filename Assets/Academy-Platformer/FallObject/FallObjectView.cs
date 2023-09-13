@@ -18,29 +18,29 @@ namespace FallObject
             OnCollisionEnter2DNotify?.Invoke(other);
         }
         
-        public class Pool : MemoryPool<FallObjectView>, IDisposable
+        public class Pool : MemoryPool<IMemoryPool>, IDisposable
         {
-            protected override void OnCreated(FallObjectView item)
+            protected void OnCreated(FallObjectView item)
             {
             
             }
 
-            protected override void OnDestroyed(FallObjectView item)
+            protected void OnDestroyed(FallObjectView item)
             {
            
             }
 
-            protected override void OnSpawned(FallObjectView item)
+            protected void OnSpawned(FallObjectView item)
             {
            
             }
 
-            protected override void OnDespawned(FallObjectView item)
+            protected void OnDespawned(FallObjectView item)
             {
             
             }
 
-            protected override void Reinitialize(FallObjectView foo)
+            protected void Reinitialize(FallObjectView foo)
             {
             
             }

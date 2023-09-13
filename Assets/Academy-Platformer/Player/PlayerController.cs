@@ -25,7 +25,6 @@ namespace PlayerSpace
         private PlayerView _playerView;
         private PlayerHpController _playerHpController;
         private PlayerView.Factory _factoryPlayer;
-        private PlayerStorage _playerStorage;
         private PlayerMovementController _playerMovementController;
         private PlayerAnimator _playerAnimator;
         private UnityEngine.Camera _camera;
@@ -39,9 +38,7 @@ namespace PlayerSpace
             UnityEngine.Camera camera,
             SoundController soundController,
             PlayerView.Factory factoryPlayer,
-            PlayerConfig playerConfig,
-            PlayerStorage playerStorage,
-            PlayerView playerView)
+            PlayerConfig playerConfig)
         {
             _soundController = soundController;
             
@@ -53,7 +50,6 @@ namespace PlayerSpace
             _inputController = inputController;
             _camera = camera;
             
-            _playerStorage = playerStorage;
             _factoryPlayer = factoryPlayer;
 
         }
@@ -64,13 +60,11 @@ namespace PlayerSpace
             _currentHealth = model.Health;
             _currentSpeed = model.Speed;
             
-           /// _playerView = _factoryPlayer.Create(model, _playerView);
+            _playerView = _factoryPlayer.Create();
             
             _playerAnimator = new PlayerAnimator(_playerView, _camera);
             _playerAnimator.Spawn();
             
-            _playerView.gameObject.SetActive(true);
-            _playerStorage.Add(_playerView); //////
             _playerMovementController = new PlayerMovementController(_inputController, _playerView, this);
 
             return _playerView;

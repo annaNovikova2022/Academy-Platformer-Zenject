@@ -9,11 +9,6 @@ namespace PlayerSpace
         public SpriteRenderer SpriteRenderer => spriteRenderer;
         
         [SerializeField] private SpriteRenderer spriteRenderer;
-
-        private void Start()
-        {
-            gameObject.SetActive(false);
-        }
         
         public class Factory : PlaceholderFactory<PlayerView>
         { }

@@ -106,22 +106,17 @@ public class GameInstaller : MonoInstaller
     private void PlayerBinding()
     {
         Container
-            .Bind<PlayerStorage>()
-            .AsSingle();
-        
-        Container
-            .BindFactory<PlayerView, PlayerView.Factory>()
-            .FromComponentInNewPrefabResource(ResourcesConst.PlayerPrefab);
-        Container
             .Bind<PlayerConfig>()
             .FromScriptableObjectResource(ResourcesConst.PlayerConfig)
             .AsSingle()
             .NonLazy();
-        
         Container
             .Bind<PlayerController>()
             .AsSingle()
             .NonLazy();
+        Container
+            .BindFactory<PlayerView, PlayerView.Factory>()
+            .FromComponentInNewPrefabResource(ResourcesConst.PlayerPrefab);
     }
     
     private void FallObjectPoolBinding()
@@ -133,7 +128,7 @@ public class GameInstaller : MonoInstaller
         
         Container
             .BindMemoryPool<FallObjectView, FallObjectView.Pool>()
-            .WithInitialSize(5)
+            .WithInitialSize(10)
             .FromComponentInNewPrefabResource(ResourcesConst.FallObjectViewPath)
             .UnderTransformGroup("FallObjects");
     }
