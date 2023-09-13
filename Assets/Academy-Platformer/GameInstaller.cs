@@ -116,13 +116,15 @@ public class GameInstaller : MonoInstaller
     private void FallObjectBinding()
     {
         Container
-            .Bind<FallObjectSpawnConfig>()
+            .Bind<FallObjectConfig>()
+            .FromResources(ResourcesConst.FallObjectConfigPath)
             .AsSingle()
             .NonLazy();
         Container
             .Bind<FallObjectSpawnConfig>()
             .FromResource(ResourcesConst.FallObjectSpawnConfig)
-            .AsSingle();
+            .AsSingle()
+            .NonLazy();
 
 
         Container

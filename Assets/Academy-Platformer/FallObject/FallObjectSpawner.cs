@@ -81,8 +81,13 @@ public class FallObjectSpawner: ITickable
     private void SpawnNewObject()
     {
         var type = Random.Range(0, _typesCount);
-        var newObject = _pool.Spawn();
+        FallObjectView newObject = _pool.Spawn(); /////
         _fallsObjects.Add(newObject, new FallObjectController(newObject));
+        
+        var model = con.Get(type);
+
+        newObject.SpriteRenderer.sprite = model.ObjectSprite;
+        
         _spawnPosition.x = Random.Range(_minPositionX, _maxPositionX);
         newObject.gameObject.transform.position = _spawnPosition;
     }

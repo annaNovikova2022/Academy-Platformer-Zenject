@@ -15,12 +15,16 @@ namespace FallObject
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private FallObjectModel _model;
 
+        
+        public FallObjectConfig ObjectConfig => _objectConfig;
+
+        private FallObjectConfig _objectConfig;
         private void OnCollisionEnter2D(Collision2D other)
         {
             OnCollisionEnter2DNotify?.Invoke(other);
         }
         
-        public class Pool : MemoryPool<FallObjectModel, FallObjectView>, IDisposable
+        public class Pool : MemoryPool<FallObjectView>, IDisposable
         {
             /*protected void OnCreated(FallObjectView item)
             {
