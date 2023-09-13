@@ -15,11 +15,8 @@ public class GameInstaller : MonoInstaller
     {
         ApplicationStartupBindings();
         UIBindings();
+        SoundBinding();
         
-        Container
-            .Bind<SoundController>()
-            .AsSingle()
-            .NonLazy();
         Container
             .Bind<ScoreCounter>()
             .AsSingle()
@@ -30,11 +27,8 @@ public class GameInstaller : MonoInstaller
             .NonLazy();
 
         PlayerBinding();
-
-        Container
-            .Bind<FallObjectSpawner>()
-            .AsSingle()
-            .NonLazy();
+        
+        FallObjectBinding();
         
         Container
             .Bind<GameController>()
@@ -119,17 +113,39 @@ public class GameInstaller : MonoInstaller
             .FromComponentInNewPrefabResource(ResourcesConst.PlayerPrefab);
     }
     
-    private void FallObjectPoolBinding()
+    private void FallObjectBinding()
     {
+        Container
+            .Bind<FallObjectSpawnConfig>()
+            .AsSingle()
+            .NonLazy();
         Container
             .Bind<FallObjectSpawnConfig>()
             .FromResource(ResourcesConst.FallObjectSpawnConfig)
             .AsSingle();
-        
+
+
         Container
             .BindMemoryPool<FallObjectView, FallObjectView.Pool>()
             .WithInitialSize(10)
             .FromComponentInNewPrefabResource(ResourcesConst.FallObjectViewPath)
             .UnderTransformGroup("FallObjects");
+    }
+
+    private void SoundBinding()
+    {
+        Container
+            .Bind<SoundConfig>()
+            .FromResources(ResourcesConst.SoundConfig)
+            .AsSingle()
+            .NonLazy();
+        Container
+            .Bind<SoundController>()
+            .AsSingle()
+            .NonLazy();
+        Container
+            .BindMemoryPool<SoundView, SoundView.Pool>()
+            .FromComponentInNewPrefabResource(ResourcesConst.SoundView)
+            .UnderTransformGroup("Sounds");
     }
 }
