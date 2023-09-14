@@ -21,11 +21,17 @@ public class FallObjectSpawner: ITickable
     private float _spawnPeriod;
     private float _timer;
     private int _typesCount;
+    private FallObjectConfig _fallObjectConfig;
     private Dictionary<FallObjectView, FallObjectController> _fallsObjects = new Dictionary<FallObjectView, FallObjectController>();
 
     [Inject]
-    public void Construct(FallObjectSpawnConfig fallObjectSpawnConfig, FallObjectView.Pool pool, ScoreCounter scoreCounter)
+    public void Construct(FallObjectSpawnConfig fallObjectSpawnConfig, 
+        FallObjectView.Pool pool, 
+        ScoreCounter scoreCounter,
+        FallObjectConfig fallObjectConfig)
     {
+        _fallObjectConfig = fallObjectConfig;
+        
         var spawnerConfig = fallObjectSpawnConfig;
         _positionY = spawnerConfig.PositionY;
         _minPositionX = spawnerConfig.MinPositionX;
@@ -81,13 +87,10 @@ public class FallObjectSpawner: ITickable
     private void SpawnNewObject()
     {
         var type = Random.Range(0, _typesCount);
-        FallObjectView newObject = _pool.Spawn(); /////
-        _fallsObjects.Add(newObject, new FallObjectController(newObject));
+        var newObject = _pool.Spawn();
+        var newController = new FallObjectController(newObject, _fallObjectConfig, (FallObjectType)type);
         
-        var model = con.Get(type);
-
-        newObject.SpriteRenderer.sprite = model.ObjectSprite;
-        
+        _fallsObjects.Add(newObject, newController);
         _spawnPosition.x = Random.Range(_minPositionX, _maxPositionX);
         newObject.gameObject.transform.position = _spawnPosition;
     }

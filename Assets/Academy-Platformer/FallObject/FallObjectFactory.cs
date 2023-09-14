@@ -14,7 +14,7 @@ namespace FallObject
         {
             var view = GameObject.Instantiate(_objectView);
             var model = _objectConfig.Get(type);
-            var controller = new FallObjectController(view);
+            var controller = new FallObjectController(view, _objectConfig, FallObjectType.Type1);
 
             view.SpriteRenderer.sprite = model.ObjectSprite;
             view.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);

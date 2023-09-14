@@ -18,6 +18,8 @@ namespace FallObject
         private Vector3 _deltaVector = new Vector3(0, -0.001f, 0);
         private FallObjectAnimator _animator;
         private FallObjectView _view;
+        private FallObjectModel _model;
+        private  FallObjectConfig _objectConfig;
         private int _pointsPerObject;
         private float _minPositionY = -7f;
         private float _fallSpeed;
@@ -25,12 +27,14 @@ namespace FallObject
         private bool _isCatched;
 
 
-        public FallObjectController(FallObjectView view)
+        public FallObjectController(FallObjectView view,
+            FallObjectConfig objectConfig,
+            FallObjectType type
+            )
         {
-            _pointsPerObject = view.Model.PointsPerObject;
-            _fallSpeed = view.Model.FallSpeed;
-            _damage = view.Model.Damage;
-
+            _model = _objectConfig.Get(type);
+            SetModel(_model);
+                
             _view = view;
             _view.transform.localScale = _defaultScale;
             
