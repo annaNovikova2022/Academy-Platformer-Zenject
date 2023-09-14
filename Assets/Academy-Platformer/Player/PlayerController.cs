@@ -22,7 +22,7 @@ namespace PlayerSpace
         private SoundController _soundController;
         private InputController _inputController;
         private PlayerConfig _playerConfig;
-        private PlayerView _playerView;
+        [NonSerialized] private PlayerView _playerView;
         private PlayerHpController _playerHpController;
         private PlayerView.Factory _factoryPlayer;
         private PlayerMovementController _playerMovementController;
@@ -85,8 +85,8 @@ namespace PlayerSpace
             _soundController.Play(SoundName.GameOver);
 
             _playerAnimator.Death(setEndWindow);
-            
-            Object.Destroy(_playerView.gameObject, DelayDestroyPlayer);
+
+            GameObjectContext.Destroy(_playerView.gameObject, DelayDestroyPlayer);
             _playerView = null;
         }
     }

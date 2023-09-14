@@ -5,7 +5,7 @@ using Zenject;
 
 namespace FallObject
 {
-    public class FallObjectController: ITickable
+    public class FallObjectController: IFixedTickable
     {
         public static event Action<float> DamageToPlayerNotify;
         public event Action<FallObjectController> PlayerCatchFallingObjectNotify;
@@ -46,7 +46,6 @@ namespace FallObject
             PlayerCatchFallingObjectNotify += (controller) => _animator.Death();
             
             _view.OnCollisionEnter2DNotify += OnCollisionEnter2D;
-            _tickableManager.Add(this);
         }
 
         void OnCollisionEnter2D(Collision2D collision2D)
@@ -64,12 +63,12 @@ namespace FallObject
         {
             if (value == true)
             {
-                _tickableManager.Add(this);
+                _tickableManager.AddFixed(this);
                 
             }
             else
             {
-                _tickableManager.Remove(this);
+                _tickableManager.RemoveFixed(this);
             }
 
             _view.transform.localScale = _defaultScale;
@@ -88,7 +87,7 @@ namespace FallObject
             _view.SpriteRenderer.sprite = model.ObjectSprite;
         }
 
-        public void Tick()
+        public void FixedTick()
         {
             if (_view.transform.position.y <= _minPositionY)
             {
