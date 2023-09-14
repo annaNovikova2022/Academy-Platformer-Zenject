@@ -1,5 +1,4 @@
 using Camera;
-using TickableManager;
 using Zenject;
 
 public class ApplicationStartupInstaller : Installer<ApplicationStartupInstaller>
@@ -13,16 +12,6 @@ public class ApplicationStartupInstaller : Installer<ApplicationStartupInstaller
             .NonLazy();
         Container
             .Bind<CreateMainCameraCommand>()
-            .AsSingle()
-            .NonLazy();
-        
-        Container
-            .BindInterfacesAndSelfTo<TickableManager.TickableManager>()
-            .FromComponentInNewPrefabResource(ResourcesConst.TickableManager)
-            .AsSingle()
-            .NonLazy();
-        Container
-            .Bind<CreateTickableManagerCommand>()
             .AsSingle()
             .NonLazy();
 

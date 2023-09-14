@@ -1,6 +1,4 @@
 ﻿using Bootstrap;
-using Camera;
-using TickableManager;
 using UnityEngine;
 using Bootstrap = Bootstrap.Bootstrap;
 

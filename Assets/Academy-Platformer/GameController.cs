@@ -3,8 +3,9 @@ using Sounds;
 using UI.HUD;
 using UI.UIService;
 using UI.UIWindows;
+using Zenject;
 
-public class GameController
+public class GameController: ITickable
 {
     private  UnityEngine.Camera _camera;
     
@@ -15,6 +16,7 @@ public class GameController
     private HUDWindowController _hudWindowController;
     private ScoreCounter _scoreCounter;
     private SoundController _soundController;
+    private readonly Zenject.TickableManager _tickableManager;
     
     public GameController(PlayerController playerController,
         FallObjectSpawner spawner, 
@@ -22,8 +24,10 @@ public class GameController
         SoundController soundController,
         UnityEngine.Camera camera, 
         UIService uiService, 
-        HUDWindowController hudWindowController)
+        HUDWindowController hudWindowController,
+        Zenject.TickableManager tickableManager)
     {
+        _tickableManager = tickableManager;
         _soundController = soundController;
         _camera = camera;
         _uiService = uiService;
@@ -59,16 +63,17 @@ public class GameController
         
         _playerController.Spawn();
         _spawner.StartSpawn();
-        TickableManager.TickableManager.UpdateNotify += Update;
+        _tickableManager.Add(this);
     }
 
     public void StopGame()
     {
         _playerController.DestroyView(()=>_gameWindowController.ShowEndMenuWindow());
         _spawner.StopSpawn();
-        TickableManager.TickableManager.UpdateNotify -= Update;
+        
+        _tickableManager.Add(this);
     }
 
-    private void Update()
+    public void Tick()
     { }
 }

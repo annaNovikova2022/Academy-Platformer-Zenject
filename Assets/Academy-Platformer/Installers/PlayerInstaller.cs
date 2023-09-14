@@ -16,6 +16,6 @@ public class PlayerInstaller : Installer<PlayerInstaller>
             .NonLazy();
         Container
             .BindFactory<PlayerView, PlayerView.Factory>()
-            .FromComponentInNewPrefabResource(ResourcesConst.PlayerPrefab);
+            .FromComponentInNewPrefabResource(ResourcesConst.PlayerPrefab); ///Это работает, тк нет nonLazy. Объект создается в любом месте, когда это необходимо.
     }
 }

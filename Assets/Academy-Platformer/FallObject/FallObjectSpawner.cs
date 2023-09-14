@@ -11,6 +11,7 @@ public class FallObjectSpawner: ITickable
 
     private  ScoreCounter _scoreCounter;
     private  FallObjectView.Pool _pool;
+    private readonly Zenject.TickableManager _tickableManager;
     private  float _spawnPeriodMin;
     private  float _spawnPeriodMax;
     private  float _minPositionX;
@@ -22,14 +23,15 @@ public class FallObjectSpawner: ITickable
     private float _timer;
     private int _typesCount;
     private FallObjectConfig _fallObjectConfig;
-    private Dictionary<FallObjectView, FallObjectController> _fallsObjects = new Dictionary<FallObjectView, FallObjectController>();
-
-    [Inject]
-    public void Construct(FallObjectSpawnConfig fallObjectSpawnConfig, 
-        FallObjectView.Pool pool, 
-        ScoreCounter scoreCounter,
-        FallObjectConfig fallObjectConfig)
+    [NonSerialized]private Dictionary<FallObjectView, FallObjectController> _fallsObjects = new Dictionary<FallObjectView, FallObjectController>();
+    
+    public  FallObjectSpawner(FallObjectSpawnConfig fallObjectSpawnConfig, 
+        FallObjectView.Pool pool,
+        FallObjectConfig fallObjectConfig,
+        Zenject.TickableManager tickableManager)
     {
+        _tickableManager = tickableManager;
+        
         _fallObjectConfig = fallObjectConfig;
         
         var spawnerConfig = fallObjectSpawnConfig;
@@ -50,13 +52,13 @@ public class FallObjectSpawner: ITickable
     public void StartSpawn()
     {
         _spawnPeriod = 6.5f;
-        TickableManager.TickableManager.UpdateNotify += Tick;
+        
+        _tickableManager.Add(this);
     }
 
     public void StopSpawn() //!!!
     {
-        TickableManager.TickableManager.UpdateNotify -= Tick;
-        //Pool.AllReturnToPool();
+        _tickableManager.Remove(this);
 
         foreach (var view in _fallsObjects.Keys)
         {
@@ -87,10 +89,13 @@ public class FallObjectSpawner: ITickable
     private void SpawnNewObject()
     {
         var type = Random.Range(0, _typesCount);
-        var newObject = _pool.Spawn();
-        var newController = new FallObjectController(newObject, _fallObjectConfig, (FallObjectType)type);
+        var  _model = _fallObjectConfig.Get((FallObjectType)type);
         
+        var newObject = _pool.Spawn(_model.ObjectSprite);
+        var newController = new FallObjectController(newObject, _model, _tickableManager);
         _fallsObjects.Add(newObject, newController);
+        newController.SetActive(true);
+        
         _spawnPosition.x = Random.Range(_minPositionX, _maxPositionX);
         newObject.gameObject.transform.position = _spawnPosition;
     }

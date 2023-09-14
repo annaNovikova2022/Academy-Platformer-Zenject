@@ -1,10 +1,11 @@
 using System;
 using PlayerSpace;
 using UnityEngine;
+using Zenject;
 
 namespace FallObject
 {
-    public class FallObjectController
+    public class FallObjectController: ITickable
     {
         public static event Action<float> DamageToPlayerNotify;
         public event Action<FallObjectController> PlayerCatchFallingObjectNotify;
@@ -25,18 +26,19 @@ namespace FallObject
         private float _fallSpeed;
         private int _damage;
         private bool _isCatched;
+        private readonly TickableManager _tickableManager;
 
 
         public FallObjectController(FallObjectView view,
-            FallObjectConfig objectConfig,
-            FallObjectType type
-            )
+            FallObjectModel model,
+            TickableManager tickableManager)
         {
-            _model = _objectConfig.Get(type);
-            SetModel(_model);
+            _tickableManager = tickableManager;
+            _model = model;
                 
             _view = view;
             _view.transform.localScale = _defaultScale;
+            SetModel(_model);
             
             _animator = new FallObjectAnimator(this);
             _animator.Spawn();
@@ -44,6 +46,7 @@ namespace FallObject
             PlayerCatchFallingObjectNotify += (controller) => _animator.Death();
             
             _view.OnCollisionEnter2DNotify += OnCollisionEnter2D;
+            _tickableManager.Add(this);
         }
 
         void OnCollisionEnter2D(Collision2D collision2D)
@@ -57,27 +60,16 @@ namespace FallObject
             }
         }
 
-        private void FixedUpdate()
-        {
-            if (_view.transform.position.y <= _minPositionY)
-            {
-                ObjectFellNotify?.Invoke(this);
-                DamageToPlayerNotify?.Invoke(_damage);
-            }
-
-            _view.transform.position += _deltaVector * _fallSpeed;
-        }
-
         public void SetActive(bool value)
         {
             if (value == true)
             {
-                TickableManager.TickableManager.FixedUpdateNotify += FixedUpdate;
+                _tickableManager.Add(this);
                 
             }
             else
             {
-                TickableManager.TickableManager.FixedUpdateNotify -= FixedUpdate;
+                _tickableManager.Remove(this);
             }
 
             _view.transform.localScale = _defaultScale;
@@ -86,12 +78,25 @@ namespace FallObject
         }
         
         
+        
+        
         public void SetModel(FallObjectModel model)
         {
             _pointsPerObject = model.PointsPerObject;
             _fallSpeed = model.FallSpeed;
             _damage = model.Damage;
             _view.SpriteRenderer.sprite = model.ObjectSprite;
+        }
+
+        public void Tick()
+        {
+            if (_view.transform.position.y <= _minPositionY)
+            {
+                ObjectFellNotify?.Invoke(this);
+                DamageToPlayerNotify?.Invoke(_damage);
+            }
+
+            _view.transform.position += _deltaVector * _fallSpeed;
         }
     }
 }

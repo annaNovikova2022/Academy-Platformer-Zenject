@@ -18,8 +18,7 @@ public class FallObjectInstaller : Installer<FallObjectInstaller>
             .Bind<FallObjectSpawner>()
             .AsSingle()
             .NonLazy();
-
-
+        
         Container
             .BindMemoryPool<FallObjectView, FallObjectView.Pool>()
             .WithInitialSize(10)
