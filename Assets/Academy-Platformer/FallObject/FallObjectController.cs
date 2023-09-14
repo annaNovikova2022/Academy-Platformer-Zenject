@@ -46,7 +46,6 @@ namespace FallObject
             PlayerCatchFallingObjectNotify += (controller) => _animator.Death();
             
             _view.OnCollisionEnter2DNotify += OnCollisionEnter2D;
-            _tickableManager.Add(this);
         }
 
         void OnCollisionEnter2D(Collision2D collision2D)
