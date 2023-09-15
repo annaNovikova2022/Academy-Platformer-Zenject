@@ -1,4 +1,3 @@
-using Academy_Platformer;
 using UnityEngine;
 
 namespace Camera

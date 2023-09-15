@@ -75,10 +75,7 @@ namespace FallObject
             View.gameObject.SetActive(value);
             _isCatched = !value;
         }
-        
-        
-        
-        
+
         public void SetModel(FallObjectModel model)
         {
             _pointsPerObject = model.PointsPerObject;
@@ -93,6 +90,9 @@ namespace FallObject
             {
                 ObjectFellNotify?.Invoke(this);
                 DamageToPlayerNotify?.Invoke(_damage);
+                // _objectPool.Despawn(view);
+                // _views.Remove(view);
+                // _view
             }
 
             _view.transform.position += _deltaVector * _fallSpeed;

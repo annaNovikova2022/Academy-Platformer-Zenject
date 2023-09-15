@@ -71,7 +71,7 @@ public class GameController: ITickable
         _playerController.DestroyView(()=>_gameWindowController.ShowEndMenuWindow());
         _spawner.StopSpawn();
         
-        _tickableManager.Add(this);
+        _tickableManager.Remove(this);
     }
 
     public void Tick()

@@ -1,10 +1,7 @@
 ﻿using System;
-using Academy_Platformer.Player.FactoryPlayer;
+using DG.Tweening;
 using Sounds;
 using UI.HUD;
-using UnityEngine;
-using UnityEngine.PlayerLoop;
-using Object = UnityEngine.Object;
 using Zenject;
 
 namespace PlayerSpace
@@ -67,6 +64,9 @@ namespace PlayerSpace
             
             _playerMovementController = new PlayerMovementController(_inputController, _playerView, this);
 
+            /*_playerHpController.SetHealth(_playerConfig.PlayerModel.Health);
+            _playerScoreCounter.SetScores();*/
+            
             return _playerView;
         }
 
@@ -77,7 +77,7 @@ namespace PlayerSpace
             OnChangeSpeed?.Invoke(_currentSpeed);
         }
 
-        public void DestroyView(DG.Tweening.TweenCallback setEndWindow = null)
+        public void DestroyView(TweenCallback setEndWindow = null)
         {
             OnDisposed?.Invoke();
             

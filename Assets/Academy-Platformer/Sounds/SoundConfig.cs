@@ -9,7 +9,7 @@ namespace Sounds
     {
         [SerializeField] private SoundModels[] soundModels;
         
-        private Dictionary<SoundName, AudioClip> _dict = new();
+        private Dictionary<SoundName, SoundModels> _dict = new();
         
         [NonSerialized] private bool _inited;
 
@@ -17,12 +17,12 @@ namespace Sounds
         {
             foreach (var model in soundModels)
             {
-                _dict.Add(model.Name, model.Clip);
+                _dict.Add(model.Name, model);
             }
             _inited = true;
         }
 
-        public AudioClip Get(SoundName soundName)
+        public SoundModels Get(SoundName soundName)
         {
             if (!_inited)
             {

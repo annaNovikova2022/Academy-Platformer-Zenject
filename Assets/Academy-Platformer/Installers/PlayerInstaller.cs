@@ -5,12 +5,12 @@ public class PlayerInstaller : Installer<PlayerInstaller>
 {
     public override void InstallBindings()
     {
-        Container.BindInterfacesAndSelfTo<InputController>()
-            .AsSingle()
-            .NonLazy();
         Container
             .Bind<PlayerConfig>()
             .FromScriptableObjectResource(ResourcesConst.PlayerConfig)
+            .AsSingle()
+            .NonLazy();
+        Container.BindInterfacesAndSelfTo<InputController>()
             .AsSingle()
             .NonLazy();
         Container

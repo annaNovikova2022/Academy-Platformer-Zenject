@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -12,13 +13,12 @@ namespace Sounds
 
         public class Pool : MemoryPool<SoundModels, SoundView>
         {
-            private List<SoundView> _views = new List<SoundView>();
+            [NonSerialized] private List<SoundView> _views = new List<SoundView>();
 
             protected override void OnCreated(SoundView item)
             {
                 _views.Add(item);
             }
-            
             protected override void OnDespawned(SoundView item)
             {
                 item.AudioSource.clip = null;
@@ -28,6 +28,26 @@ namespace Sounds
             {
                 item.gameObject.SetActive(true);
                 item.AudioSource.clip = soundModel.Clip;
+            }
+            public void DisableCompletedSounds()
+            {
+                foreach (var soundView in _views)
+                {
+                    if (!soundView.AudioSource.isPlaying && soundView.gameObject.activeInHierarchy)
+                    {
+                        Despawn(soundView);
+                    }
+                }
+            }
+            public void MuteSound()
+            {
+                foreach (var soundView in _views)
+                {
+                    if (soundView.gameObject.activeInHierarchy)
+                    {
+                        Despawn(soundView);
+                    }
+                }
             }
         }
     }
