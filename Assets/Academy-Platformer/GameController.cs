@@ -16,7 +16,7 @@ public class GameController: ITickable
     private HUDWindowController _hudWindowController;
     private ScoreCounter _scoreCounter;
     private SoundController _soundController;
-    private readonly Zenject.TickableManager _tickableManager;
+    private readonly TickableManager _tickableManager;
     
     public GameController(PlayerController playerController,
         FallObjectSpawner spawner, 
@@ -25,7 +25,7 @@ public class GameController: ITickable
         UnityEngine.Camera camera, 
         UIService uiService, 
         HUDWindowController hudWindowController,
-        Zenject.TickableManager tickableManager)
+        TickableManager tickableManager)
     {
         _tickableManager = tickableManager;
         _soundController = soundController;

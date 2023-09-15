@@ -12,10 +12,10 @@ public class GameInstaller : MonoInstaller
             .Bind<ScoreCounter>()
             .AsSingle()
             .NonLazy();
-        Container
+        /*Container
             .Bind<InputController>()
             .AsSingle()
-            .NonLazy();
+            .NonLazy();*/
 
         PlayerInstaller.Install(Container);
         FallObjectInstaller.Install(Container);
