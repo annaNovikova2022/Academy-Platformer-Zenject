@@ -29,12 +29,16 @@ namespace FallObject
         private readonly TickableManager _tickableManager;
 
 
+        private FallObjectView.Pool _pool;
+
         public FallObjectController(FallObjectView view,
             FallObjectModel model,
-            TickableManager tickableManager)
+            TickableManager tickableManager,
+            FallObjectView.Pool pool)
         {
             _tickableManager = tickableManager;
             _model = model;
+            _pool = pool;
                 
             _view = view;
             _view.transform.localScale = _defaultScale;
@@ -50,12 +54,16 @@ namespace FallObject
 
         void OnCollisionEnter2D(Collision2D collision2D)
         {
-            var player = collision2D.gameObject.GetComponent<PlayerView>();
-
-            if (player != null && !_isCatched)
+            if (!_isCatched)
             {
-                PlayerCatchFallingObjectNotify?.Invoke(this);
-                _isCatched = true;
+                var player = collision2D.gameObject.GetComponent<PlayerView>();
+
+                if (player != null)
+                {
+                    _animator.Death();
+                    _isCatched = true;
+                    SetActive(false);
+                }
             }
         }
 
@@ -90,9 +98,7 @@ namespace FallObject
             {
                 ObjectFellNotify?.Invoke(this);
                 DamageToPlayerNotify?.Invoke(_damage);
-                // _objectPool.Despawn(view);
-                // _views.Remove(view);
-                // _view
+                //_pool.Despawn(_view);
             }
 
             _view.transform.position += _deltaVector * _fallSpeed;

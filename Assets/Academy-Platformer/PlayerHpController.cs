@@ -21,6 +21,12 @@ public class PlayerHpController
         FallObjectController.DamageToPlayerNotify += ReduceHealth;
     }
 
+    public void SetHealth(float value = 1f)
+    {
+        _health = value;
+        OnHealthChanged?.Invoke(_health);
+    }
+
     public void ReduceHealth(float damage)
     {
         _health -= damage;

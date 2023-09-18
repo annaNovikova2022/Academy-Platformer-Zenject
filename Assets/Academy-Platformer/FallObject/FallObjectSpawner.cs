@@ -92,11 +92,12 @@ public class FallObjectSpawner: ITickable
         var  _model = _fallObjectConfig.Get((FallObjectType)type);
         
         var newObject = _pool.Spawn(_model.ObjectSprite);
-        var newController = new FallObjectController(newObject, _model, _tickableManager);
+        var newController = new FallObjectController(newObject, _model, _tickableManager, _pool);
         _fallsObjects.Add(newObject, newController);
         newController.SetActive(true);
-        
+
         _spawnPosition.x = Random.Range(_minPositionX, _maxPositionX);
         newObject.gameObject.transform.position = _spawnPosition;
     }
+    
 }

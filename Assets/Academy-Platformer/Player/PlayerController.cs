@@ -9,7 +9,6 @@ namespace PlayerSpace
     public class PlayerController
     {
         public Action OnDisposed;
-        
         public event Action<float> OnChangeSpeed;
 
         public PlayerHpController PlayerHpController => _playerHpController;
@@ -38,17 +37,13 @@ namespace PlayerSpace
             PlayerConfig playerConfig)
         {
             _soundController = soundController;
-            
+             _inputController = inputController;
+             _camera = camera;
             _playerConfig = playerConfig;
-
+            _factoryPlayer = factoryPlayer;
+            
             _playerHpController = new PlayerHpController(_playerConfig.PlayerModel.Health, _soundController);
             _playerHpController.OnHealthChanged += hudWindowController.ChangeHealthPoint;
-          
-            _inputController = inputController;
-            _camera = camera;
-            
-            _factoryPlayer = factoryPlayer;
-
         }
         
         public PlayerView Spawn()
@@ -64,8 +59,8 @@ namespace PlayerSpace
             
             _playerMovementController = new PlayerMovementController(_inputController, _playerView, this);
 
-            /*_playerHpController.SetHealth(_playerConfig.PlayerModel.Health);
-            _playerScoreCounter.SetScores();*/
+            _playerHpController.SetHealth(_playerConfig.PlayerModel.Health);
+            //_playerScoreCounter.SetScores();
             
             return _playerView;
         }

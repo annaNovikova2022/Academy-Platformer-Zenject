@@ -13,7 +13,7 @@ namespace Sounds
 
         public class Pool : MemoryPool<SoundModels, SoundView>
         {
-            [NonSerialized] private List<SoundView> _views = new List<SoundView>();
+             private List<SoundView> _views = new List<SoundView>();
 
             protected override void OnCreated(SoundView item)
             {
@@ -21,8 +21,8 @@ namespace Sounds
             }
             protected override void OnDespawned(SoundView item)
             {
-                item.AudioSource.clip = null;
                 item.gameObject.SetActive(false);
+                item.AudioSource.clip = null;
             }
             protected override void Reinitialize(SoundModels soundModel, SoundView item)
             {
