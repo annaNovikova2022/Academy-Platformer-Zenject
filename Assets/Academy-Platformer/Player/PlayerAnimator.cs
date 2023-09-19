@@ -75,7 +75,7 @@ namespace PlayerSpace
                 .SetLoops(NumberRepetitionsGetDamage);
         }
 
-        public void Death(TweenCallback setEndWindow = null)
+        public void Death(TweenCallback EndGame = null)
         {
             _sequenceDeath?.Kill();
                 
@@ -84,7 +84,7 @@ namespace PlayerSpace
             _sequenceDeath
                 .Append(_playerView.transform.DOScale(IncreasePlayerDeath, DurationDeath).SetEase(Ease.InOutBounce))
                 .Append(_playerView.transform.DOScale(DecreasePlayerDeath, DurationDeath).SetEase(Ease.InBounce)
-                    .OnComplete(setEndWindow));
+                    .OnComplete(EndGame));
         }
     }
 }

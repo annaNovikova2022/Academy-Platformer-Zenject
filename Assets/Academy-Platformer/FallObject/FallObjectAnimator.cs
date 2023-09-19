@@ -11,16 +11,14 @@ namespace FallObject
         private const float SpawnAnimDuration = 2.5f;
         private const float DeathAnimDuration = 0.1f;
     
-        private readonly FallObjectController _fallObjectController;
         private readonly FallObjectView _fallObjectView;
     
         private Sequence _sequenceSpawn;
         private Sequence _sequenceDeath;
 
-        public FallObjectAnimator(FallObjectController fallObjectController)
+        public FallObjectAnimator(FallObjectView fallObjectView)
         {
-            _fallObjectController = fallObjectController;
-            _fallObjectView = fallObjectController.View;
+            _fallObjectView = fallObjectView;
         }
 
         public void Spawn()

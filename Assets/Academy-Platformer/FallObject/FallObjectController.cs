@@ -8,7 +8,6 @@ namespace FallObject
     public class FallObjectController: IFixedTickable
     {
         public static event Action<float> DamageToPlayerNotify;
-        public event Action<FallObjectController> PlayerCatchFallingObjectNotify;
         public event Action<FallObjectController> DeathAnimationEndedNotify;
         public event Action<FallObjectController> ObjectFellNotify;
         public int PointsPerObject => _pointsPerObject;
@@ -28,26 +27,20 @@ namespace FallObject
         private bool _isCatched;
         private readonly TickableManager _tickableManager;
 
-
-        private FallObjectView.Pool _pool;
-
         public FallObjectController(FallObjectView view,
             FallObjectModel model,
-            TickableManager tickableManager,
-            FallObjectView.Pool pool)
+            TickableManager tickableManager)
         {
             _tickableManager = tickableManager;
             _model = model;
-            _pool = pool;
                 
             _view = view;
             _view.transform.localScale = _defaultScale;
             SetModel(_model);
             
-            _animator = new FallObjectAnimator(this);
+            _animator = new FallObjectAnimator(_view);
             _animator.Spawn();
             _animator.DeathAnimationEnded += () => DeathAnimationEndedNotify?.Invoke(this);
-            PlayerCatchFallingObjectNotify += (controller) => _animator.Death();
             
             _view.OnCollisionEnter2DNotify += OnCollisionEnter2D;
         }
@@ -98,7 +91,6 @@ namespace FallObject
             {
                 ObjectFellNotify?.Invoke(this);
                 DamageToPlayerNotify?.Invoke(_damage);
-                //_pool.Despawn(_view);
             }
 
             _view.transform.position += _deltaVector * _fallSpeed;

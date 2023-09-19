@@ -79,10 +79,15 @@ namespace PlayerSpace
             _soundController.Stop();
             _soundController.Play(SoundName.GameOver);
 
-            _playerAnimator.Death(setEndWindow);
+            _playerAnimator.Death( () =>
+            {
+                setEndWindow();
+                GameObjectContext.Destroy(_playerView.gameObject, DelayDestroyPlayer);
+                _playerView = null;
+            });
 
-            GameObjectContext.Destroy(_playerView.gameObject, DelayDestroyPlayer);
-            _playerView = null;
+            
+            
         }
     }
 }

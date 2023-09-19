@@ -25,8 +25,10 @@ public class GameController: ITickable
         UnityEngine.Camera camera, 
         UIService uiService, 
         HUDWindowController hudWindowController,
-        TickableManager tickableManager)
+        TickableManager tickableManager,
+        UIGameWindowController gameWindowController)
     {
+        _gameWindowController = gameWindowController;
         _tickableManager = tickableManager;
         _soundController = soundController;
         _camera = camera;

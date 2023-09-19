@@ -13,7 +13,7 @@ namespace Sounds
 
         public class Pool : MemoryPool<SoundModels, SoundView>
         {
-             private List<SoundView> _views = new List<SoundView>();
+            [NonSerialized] private List<SoundView> _views = new List<SoundView>();
 
             protected override void OnCreated(SoundView item)
             {
@@ -32,8 +32,8 @@ namespace Sounds
             public void DisableCompletedSounds()
             {
                 foreach (var soundView in _views)
-                {
-                    if (!soundView.AudioSource.isPlaying && soundView.gameObject.activeInHierarchy)
+                {////////////////////////////////////////////////////////
+                    if (soundView!= null && !soundView.AudioSource.isPlaying && soundView.gameObject.activeInHierarchy)
                     {
                         Despawn(soundView);
                     }

@@ -62,7 +62,7 @@ public class FallObjectSpawner: ITickable
 
         foreach (var view in _fallsObjects.Keys)
         {
-            if (view.gameObject.activeInHierarchy)
+            if (view.gameObject.activeSelf)
             {
                 _pool.Despawn(view);
             }
@@ -89,10 +89,10 @@ public class FallObjectSpawner: ITickable
     private void SpawnNewObject()
     {
         var type = Random.Range(0, _typesCount);
-        var  _model = _fallObjectConfig.Get((FallObjectType)type);
+        var _model = _fallObjectConfig.Get((FallObjectType)type);
         
         var newObject = _pool.Spawn(_model.ObjectSprite);
-        var newController = new FallObjectController(newObject, _model, _tickableManager, _pool);
+        var newController = new FallObjectController(newObject, _model, _tickableManager);
         _fallsObjects.Add(newObject, newController);
         newController.SetActive(true);
 
